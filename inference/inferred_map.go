@@ -17,7 +17,6 @@ package inference
 import (
 	"bytes"
 	"encoding/gob"
-	"errors"
 	"go/types"
 
 	"github.com/klauspost/compress/s2"
@@ -144,7 +143,7 @@ func (i *InferredMap) GobEncode() (b []byte, err error) {
 	writer := s2.NewWriter(&buf)
 	defer func() {
 		if cerr := writer.Close(); cerr != nil {
-			err = errors.Join(err, cerr)
+			err = joinErrors(err, cerr)
 		}
 	}()
 
